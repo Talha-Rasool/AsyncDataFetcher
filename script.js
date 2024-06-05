@@ -70,3 +70,16 @@ const lotteryPrice=new Promise(function(resolve,reject){
   },2000)
 })
 lotteryPrice.then(res=> console.log(res)).catch(err=>console.log(err))
+
+//promisifying
+function wait(seconds){
+  return new Promise(function(resolve){
+    setTimeout(resolve,seconds*1000)
+  })
+
+}
+wait(2).then(()=>{
+  console.log('i wait for 2 seconds')
+return wait(1)
+}
+).then(()=> console.log('i waited for 1 second'))
