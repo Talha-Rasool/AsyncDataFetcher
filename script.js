@@ -58,4 +58,15 @@ whereAmI(-33.933, 18.474)
 
 
 
-
+//building a promise
+const lotteryPrice=new Promise(function(resolve,reject){
+  console.log('Lottery is happening');
+  setTimeout(function(){
+    if(Math.random() >=0.5){
+      resolve('You win')
+    }else{
+      reject(new Error('You lost'))
+    }
+  },2000)
+})
+lotteryPrice.then(res=> console.log(res)).catch(err=>console.log(err))
