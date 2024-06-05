@@ -35,10 +35,27 @@ function getCountryData(country){
 }).then(function(data){
   console.log(data)
   getCountry(data[0])
-  const neighbor=data[0].borders[3];
+  const neighbor=data[0].borders[0];
   if(!neighbor) return;
   return fetch(`https://restcountries.com/v2/alpha/${neighbor}`)
 }).then(response => response.json()).then(data => getCountry(data,'neighbour'))
 
 }
-getCountryData('pakistan')
+getCountryData('germany')
+
+function whereAmI(lat,lng){
+  fetch(
+    `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
+  ).then(response=>{
+    console.log(response)
+    return response.json();
+  }).then(data=>{
+    console.log(data)
+    console.log(`you are in ${data.city} ${data.countryName}`)
+  })
+}
+whereAmI(-33.933, 18.474)
+
+
+
+
