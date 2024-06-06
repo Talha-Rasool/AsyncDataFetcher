@@ -35,13 +35,13 @@ function getCountryData(country){
 }).then(function(data){
   console.log(data)
   getCountry(data[0])
-  const neighbor=data[0].borders[0];
+  const neighbor=data[0].borders[4];
   if(!neighbor) return;
   return fetch(`https://restcountries.com/v2/alpha/${neighbor}`)
 }).then(response => response.json()).then(data => getCountry(data,'neighbour'))
 
 }
-getCountryData('germany')
+getCountryData('pakistan')
 
 function whereAmI(lat,lng){
   fetch(
@@ -83,3 +83,32 @@ wait(2).then(()=>{
 return wait(1)
 }
 ).then(()=> console.log('i waited for 1 second'))
+
+
+
+
+
+function getCurrPosition(){
+  return new Promise(function(resolve,reject){
+    navigator.geolocation.getCurrentPosition(function(postion){
+      resolve(postion)
+    },err=>reject(err))
+  })
+}
+
+getCurrPosition().then(pos=>{
+  console.log(pos)
+  return pos;
+}).then(data=>{
+  const {latitude:lat,longitude:lng}=data.coords;
+  console.log(lat,lng)
+return fetch(
+  `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
+).then(post=>{
+  console.log(post)
+  return post.json()
+}).then(data=>{
+  console.log(`you are in ${data.city} ${data.countryName}`)
+
+})
+})
