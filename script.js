@@ -35,7 +35,7 @@ function getCountryData(country){
 }).then(function(data){
   console.log(data)
   getCountry(data[0])
-  const neighbor=data[0].borders[4];
+  const neighbor=data[0].borders[2];
   if(!neighbor) return;
   return fetch(`https://restcountries.com/v2/alpha/${neighbor}`)
 }).then(response => response.json()).then(data => getCountry(data,'neighbour'))
@@ -112,3 +112,4 @@ return fetch(
 
 })
 })
+
