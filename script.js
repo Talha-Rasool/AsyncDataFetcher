@@ -122,3 +122,28 @@ TEST COORDINATES 2: -33.933, 18.474
 
 GOOD LUCK 😀
 */
+
+console.log('------building a new promises----------------');
+const lottryDraw= new Promise(function(resolve,reject){
+  if(Math.random() <= 0.5){
+    resolve('You win the lottery')
+  }else{
+    reject( new Error('You lost! try again'))
+  }
+});
+
+lottryDraw.then(res=>console.log(res)).catch(err=>console.log(err));
+
+
+//promisifying...
+function paperTime(sec){
+  return new Promise(function(resolve){
+    setTimeout(resolve,sec*1000)
+  })
+
+}
+paperTime(3).then(()=>{
+  console.log('Class 9 paper start in 3 s')
+  return paperTime(2)
+}
+).then(()=>console.log('class 10 paper start in 2 s'))
