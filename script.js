@@ -57,19 +57,34 @@ const getCountryData = function (country) {
     .then(data => {
       console.log(data);
       getCountry(data[0], 'neighbour');
-    }).catch(err=>{
-      alert(`something went wrong ${err.message}`)
-      console.error(`something went wrong ${err.message}`)
     })
+    .catch(err => {
+      alert(`something went wrong ${err.message}`);
+      console.error(`something went wrong ${err.message}`);
+    });
 };
 
 getCountryData('germany');
 
-
 console.log('-----------------Code C--------------------------');
 
-
-
+function whereAmI(lat, lng) {
+  fetch(
+    `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
+  )
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      console
+        .log(`I am currently in ${data.city} ${data.countryName}`)
+        return  fetch(`https://restcountries.com/v2/name/${data.countryName}`)
+    }).then(res=>{
+      if(!res.ok) throw new Error(`Country not found ${res.status}`);
+      return res.json();
+    }).then(data=>getCountry(data[0])).catch(err=>console.error(`${err.message}`))
+}
+whereAmI(52.508, 13.381);
+whereAmI(-33.933, 18.474);
 /* 
 In this challenge you will build a function 'whereAmI' which renders a country ONLY based on GPS coordinates. For that, you will use a second API to geocode coordinates.
 
@@ -86,7 +101,8 @@ The AJAX call will be done to a URL with this format: https://geocode.xyz/52.508
 Use the fetch API and promises to get the data. Do NOT use the getJSON function we created, that 
 is cheating 😉
 3. Once you have the data, take a look at it in the console to see all the attributes that you 
-recieved about the provided location. Then, using this data, log a messsage like this to the console: 'You are in Berlin, Germany'
+recieved about the provided location. Then, using this data, log a messsage like this to the console: 
+'You are in Berlin, Germany'
 4. Chain a .catch method to the end of the promise chain and log errors to the console
 5. This API allows you to make only 3 requests per second. If you reload fast, you will get this
  error with code 403. This is an error with the request. Remember, fetch() does NOT reject the 
